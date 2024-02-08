@@ -2,7 +2,7 @@
 We present a novel method for joint optimisation of neural surface reconstruction and camera pose, called PoRF (pose residual field), which uses an MLP to learn the pose residual instead of optimising camera pose parameters directly.
 
 
-## [Project page](https://arxiv.org/abs/2310.07449) |  [Paper](https://arxiv.org/abs/2310.07449) | [Data](https://1drv.ms/u/s!AiV6XqkxJHE2plJIXtxWY0YUji4r)
+## [Project page](https://porf.active.vision/) |  [Paper](https://arxiv.org/abs/2310.07449) | [Data](https://1drv.ms/u/s!AiV6XqkxJHE2plJIXtxWY0YUji4r)
 This is the official repo for the implementation of **PoRF: Pose Residual Field for Accurate Neural Surface Reconstruction**.
 
 ## Usage
@@ -31,11 +31,11 @@ Here the `cameras.npz` follows the data format in [IDR](https://github.com/liory
 Clone this repository
 
 ```shell
-git clone https://github.com/JiawangBian/porf_pytorch.git
-cd porf_pytorch
+git clone https://github.com/ActiveVisionLab/porf.git
+cd porf
 
-conda create -n porf_pytorch python=3.9
-conda activate porf_pytorch
+conda create -n porf python=3.9
+conda activate porf
 conda install pytorch==1.13.1 torchvision==0.14.1 pytorch-cuda=11.7 -c pytorch -c nvidia
 pip install -r requirements.txt
 ```
