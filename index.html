@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<script type="text/javascript"
+		src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>PoRF: Pose Residual Field for Accurate Neural Surface Reconstruction</title>
+	<!-- Bootstrap core CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+		integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+	<!-- Custom fonts for this template -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<!-- Custom styles for this template -->
+	<link href="css/academicons.css" rel="stylesheet">
+	<link href="css/footer.css" rel="stylesheet">
+	<link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+	</nav>
+	<main role="main" class="container">
+		<div class="title">
+			<h1>PoRF: Pose Residual Field for Accurate Neural Surface Reconstruction</h1>
+		</div>
+		<div class="col text-center">
+			<p class="authors">
+				<a href="https://jwbian.net/">Jia-Wang Bian</a>,
+				<a href="https://scholar.google.com/citations?user=IVfbqkgAAAAJ&hl=en">Wenjing Bian</a>,
+				<a href="https://www.robots.ox.ac.uk/~victor/">Victor Adrian Prisacariu</a>,
+				<a href="https://torrvision.com/">Philip Torr</a> <br>
+				University of Oxford <br>
+				ICLR 2024
+			</p>
+		</div>
+		<div class="col text-center">
+			<a class="btn btn-primary" href="https://arxiv.org/abs/2310.07449" role="button">Arxiv</a>
+			<a class="btn btn-primary" href="#bibtex" role="button">Bibtex</a>
+			<a class="btn btn-primary" href="https://github.com/ActiveVisionLab/porf/" role="button">Code</a>
+		</div>
+		<!-- 
+		<h2>Video Demos (Trained in Dynamic Scenes)</h2> -->
+
+		<!-- <div class="center_video">
+			<video controls autoplay muted loop>
+				<source src="video/ddad_video.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<video controls autoplay muted loop>
+				<source src="video/bonn_video.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+			<video controls autoplay muted loop>
+				<source src="video/tum_video.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+		</div> -->
+
+
+		<!-- <h2>Abstract</h2>
+		<p>
+			Neural surface reconstruction is sensitive to the camera pose noise, even if state-of-the-art pose
+			estimators like COLMAP or ARKit are used. More importantly, existing Pose-NeRF joint optimisation methods
+			have struggled to improve pose accuracy in challenging real-world scenarios.
+			To overcome the challenges, we introduce the pose residual field (PoRF), a novel implicit representation
+			that uses an MLP for regressing pose updates.
+			This is more robust than the conventional pose parameter optimisation due to parameter sharing that
+			leverages global information over the entire sequence.
+			Furthermore, we propose an epipolar geometry loss to enhance the supervision that leverages the
+			correspondences exported from COLMAP results without the extra computational overhead.
+			Our method yields promising results. On the DTU dataset, we reduce the rotation error by 78% for COLMAP
+			poses,
+			leading to the decreased reconstruction Chamfer distance from 3.48mm to 0.85mm. On the MobileBrick dataset
+			that contains casually captured unbounded 360-degree videos,
+			our method refines ARKit poses and improves the reconstruction F1 score from 69.18 to 75.67, outperforming
+			that with the dataset provided ground-truth pose (75.14).
+			These achievements demonstrate the efficacy of our approach in refining camera poses and improving the
+			accuracy of neural surface reconstruction in real-world scenarios.
+		</p> -->
+
+		<h2>Abstract</h2>
+		<p style="text-align: justify;">
+			Cutting-edge neural surface reconstruction techniques, such as <a
+				href="https://github.com/wutong16/Voxurf">Voxurf</a>, often experience a substantial drop
+			in performance when transitioning from the ground-truth camera pose to the estimated pose (e.g., using the
+			<a href="https://colmap.github.io/">COLMAP</a> SfM library). To address this challenge, we propose a novel
+			approach that concurrently optimizes camera poses and neural reconstruction. To ensure a fair comparison
+			with existing methods that optimize both pose and Neural Radiance Fields (<a
+				href="https://www.matthewtancik.com/nerf">NeRF</a>), such as <a
+				href="https://github.com/chenhsuanlin/bundle-adjusting-NeRF">BARF</a>,
+			<a href="https://arxiv.org/abs/2211.11738">SPARF</a>,
+			<a href="https://nope-nerf.active.vision/">Nope-NeRF</a>, and
+			<a href="https://rover-xingyu.github.io/L2G-NeRF/">L2G-NeRF</a>, we employ a two-stage pipeline.
+			In the initial stage, we utilize identical initial camera poses for all methods to initialize the pose
+			estimation. Subsequently, in the second stage, we fix the refined camera poses obtained by all methods and
+			apply the same reconstruction technique, Voxurf, for optimizing and extracting the object's surface. As
+			illustrated in the accompanying figure, our refined camera pose results in the lowest Chamfer Distance.
+		</p>
+		<p>
+			<img src="image/dtu_vis.png" class='center' , style="width:1200px;">
+		</p>
+
+
+
+		<h2>Method</h2>
+
+
+
+		<p style="text-align: justify;">
+			We joinly optimize camera poses and neural surface reconstruction (NSR), which builds upon <a
+				href="https://arxiv.org/abs/2106.10689">NeuS</a>. Our contributions to this baseline include: First, we
+			propose Pose Residual Field (PoRF) that uses an MLP to regress the pose residual, instead of optimising the
+			randomly initialized pose residuals directly as in previous methods. Second, we propose an epipolar geometry
+			loss (L_EG) based on the feature correspondences (exported from COLMAP, no additional overhead) to enhance
+			supervision. The pipeline is illustrated in the following figure.
+		</p>
+
+		<p>
+			<img src="image/method.png" class='center' , style="width:1400px;">
+		</p>
+
+		<p style="text-align: justify;">
+			PoRF takes the frame index and initial camera pose as input, and it outputs the pose residual, which is
+			added to the initial pose to obtain the refined pose. As the MLP parameters are shared for all frames, it
+			can learn and leverage the global pose information over the entire sequence for optimisation. This is more
+			robust than previous methods that optimize per-frame camera pose parameters individually.
+		</p>
+
+		<p style="text-align: justify;">
+			L_EG effectively imposes constraints on the alignment of pairwise relative poses, rendering it a robust
+			regularization tool for pose optimization. Additionally, thanks to the utilization of feature
+			correspondences, it enables achieving sub-pixel accuracy in the process.
+		</p>
+
+		<h2>Results</h2>
+
+		<!-- <h2>Improving surface reconstruction</h2> -->
+		<p style="text-align: justify;">
+			We conduct experiments on both the <a href="https://roboimagedata.compute.dtu.dk/?page_id=36">DTU</a> and <a
+				href="https://code.active.vision/MobileBrick/">MobileBrick</a> datasets. On the DTU dataset, we reduce
+			the rotation error by 78% for COLMAP poses, leading to the decreased reconstruction Chamfer distance from
+			3.48mm to 0.85mm. On the MobileBrick dataset that contains casually captured unbounded 360-degree videos,
+			our method refines ARKit poses and improves the reconstruction F1 score from 69.18 to 75.67, outperforming
+			that with the dataset provided ground-truth pose (75.14). These achievements demonstrate the efficacy
+			of our approach in refining camera poses and improving the accuracy of neural surface reconstruction in
+			real-world scenarios. An example of surface reconstruction is illustrated below.
+		</p>
+
+		<img src="image/visual.png" class='center' , style="width:900px;">
+
+		<p style="text-align: justify;">
+			The following figure shows the pose error changes (i.e., rotation error in degrees) with training. The "(1)
+			Baseline" denotes naive joint optimisation of per-frame (6-D) camera pose parameters and NeuS. The settings
+			"(2, 3, 4)" demonstrate the efficacy of the proposed PoRF and L_EG. In (5), we replace the SIFT
+			correspondences (by COLAMAP) with the learned <a href="https://zju3dv.github.io/loftr/">LoFTR</a> matches.
+			In (6), we replace the SDF-based scene representation in NeuS with the density-based scene representation in
+			NeRF.
+		</p>
+		<img src="image/curve.png" class='center' , style="width:700px;">
+
+
+
+		<h2>Qualitative comparison</h2>
+		<p>
+			<img src="image/dtu_vis_supply.png" class='center' , style="width:1200px;">
+		</p>
+
+		<h2>BibTeX</h2>
+		<code class="codebox" id="bibtex"><pre>
+	@article{porf_bian2023, 
+		title={PoRF: Pose Residual Field for Accurate Neural Surface Reconstruction}, 
+		author={Jia-Wang Bian, Wenjing Bian, Victor Adrian Prisacariu, Philip H.S. Torr}, 
+		journal= {https://arxiv.org/abs/2310.07449}, 
+		year={2023} 
+	}
+		</pre></code>
+
+
+	</main>
+</body>
+
+</html>
