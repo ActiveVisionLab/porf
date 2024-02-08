@@ -1,0 +1,10 @@
+trimesh
+tensorflow==2.9.1
+pyhocon==0.3.57
+kornia
+opencv_python
+tqdm
+scipy
+path
+matplotlib
+PyMCubes
