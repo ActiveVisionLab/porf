@@ -1,5 +1,9 @@
 # PoRF: Pose Residual Field for Accurate Neural Surface Reconstruction
-We present a novel method for joint optimisation of neural surface reconstruction and camera pose, called PoRF (pose residual field), which uses an MLP to learn the pose residual instead of optimising camera pose parameters directly.
+We present PoRF (pose residual field) for joint optimisation of neural surface reconstruction and camera pose. It uses an MLP to refine the camera poses for all images in the dataset instead of optimising pose parameters for each image independently. The following figure shows that our method can take the COLMAP pose as input and our refined camera pose can be comparable to the GT pose in 3D surface reconstruction. The Chamfer distances (mm) are compared.
+
+
+![alt tag](https://porf.active.vision/image/dtu_vis.png)
+
 
 
 ## [Project page](https://porf.active.vision/) |  [Paper](https://arxiv.org/abs/2310.07449) | [Data](https://1drv.ms/u/s!AiV6XqkxJHE2pme7CIkceyLGsng2?e=6qsnlt)
