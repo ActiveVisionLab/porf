@@ -50,7 +50,7 @@ pip install -r requirements.txt
 - **Example (you need change the address)**
 
 ```shell
-bash scripts/tran_sift_dtu.sh
+bash scripts/train_sift_dtu.sh
 ```
 
 - **Training (without mask)**
