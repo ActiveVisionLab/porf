@@ -47,24 +47,31 @@ pip install -r requirements.txt
 
 ### Running
 
+- **Example (you need change the address)**
+
+```shell
+bash scripts/tran_sift_dtu.sh
+```
+
 - **Training (without mask)**
 
 ```shell
 python train.py --mode train --conf confs/dtu_sift_porf.conf --case <case_name>
 ```
 
-- **Extract surface from trained model (the first-stage results, only for debug)** 
+- **Extract surface from the trained model (the first-stage results, only for debugging)** 
 
 ```shell
 python train.py --mode validate_mesh --conf confs/dtu_sift_porf.conf --case <case_name> --is_continue # use latest checkpoint
 ```
+The corresponding mesh can be found in `exp/<case_name>/<exp_name>/meshes/<iter_steps>.ply`.
+
 
 - **Export Refined Camera Pose (change folder address)**
 ```shell
 python export_camera_file.py
 ```
 
-The corresponding mesh can be found in `exp/<case_name>/<exp_name>/meshes/<iter_steps>.ply`.
 
 ## Citation
 
