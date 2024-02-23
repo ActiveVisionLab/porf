@@ -47,24 +47,18 @@ pip install -r requirements.txt
 
 ### Running
 
-- **Example (you need change the address)**
+- **Example (you need to change the address)**
 
 ```shell
 bash scripts/train_sift_dtu.sh
 ```
 
-- **Training (without mask)**
+- **Training**
 
 ```shell
 python train.py --mode train --conf confs/dtu_sift_porf.conf --case <case_name>
 ```
-
-- **Extract surface from the trained model (the first-stage results, only for debugging)** 
-
-```shell
-python train.py --mode validate_mesh --conf confs/dtu_sift_porf.conf --case <case_name> --is_continue # use latest checkpoint
-```
-The corresponding mesh can be found in `exp/<case_name>/<exp_name>/meshes/<iter_steps>.ply`.
+After training, a mesh should be found in `exp/<case_name>/<exp_name>/meshes/<iter_steps>.ply`. Note that it is used for debugging the first-stage pose optimisation. If you need high-quality mesh as shown in the paper, you should export the refined camera pose and use it to train a [Voxurf](https://github.com/wutong16/Voxurf) model.
 
 
 - **Export Refined Camera Pose (change folder address)**
@@ -75,7 +69,7 @@ python export_camera_file.py
 
 ## Citation
 
-Cite as below if you find this repository is helpful to your project:
+Cite below if you find this repository helpful to your project:
 
 ```
 @article{porf_bian2023, 
