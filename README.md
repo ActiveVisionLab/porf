@@ -1,5 +1,9 @@
 # PoRF: Pose Residual Field for Accurate Neural Surface Reconstruction
-We present a novel method for joint optimisation of neural surface reconstruction and camera pose, called PoRF (pose residual field), which uses an MLP to learn the pose residual instead of optimising camera pose parameters directly.
+We present PoRF (pose residual field) for joint optimisation of neural surface reconstruction and camera pose. It uses an MLP to refine the camera poses for all images in the dataset instead of optimising pose parameters for each image independently. The following figure shows that our method can take the COLMAP pose as input and our refined camera pose can be comparable to the GT pose in 3D surface reconstruction. The Chamfer distances (mm) are compared.
+
+
+![alt tag](https://porf.active.vision/image/dtu_vis.png)
+
 
 
 ## [Project page](https://porf.active.vision/) |  [Paper](https://arxiv.org/abs/2310.07449) | [Data](https://1drv.ms/u/s!AiV6XqkxJHE2pme7CIkceyLGsng2?e=6qsnlt)
@@ -43,28 +47,29 @@ pip install -r requirements.txt
 
 ### Running
 
-- **Training (without mask)**
+- **Example (you need to change the address)**
+
+```shell
+bash scripts/train_sift_dtu.sh
+```
+
+- **Training**
 
 ```shell
 python train.py --mode train --conf confs/dtu_sift_porf.conf --case <case_name>
 ```
+After training, a mesh should be found in `exp/<case_name>/<exp_name>/meshes/<iter_steps>.ply`. Note that it is used for debugging the first-stage pose optimisation. If you need high-quality mesh as shown in the paper, you should export the refined camera pose and use it to train a [Voxurf](https://github.com/wutong16/Voxurf) model.
 
-- **Extract surface from trained model (the first-stage results, only for debug)** 
-
-```shell
-python train.py --mode validate_mesh --conf confs/dtu_sift_porf.conf --case <case_name> --is_continue # use latest checkpoint
-```
 
 - **Export Refined Camera Pose (change folder address)**
 ```shell
 python export_camera_file.py
 ```
 
-The corresponding mesh can be found in `exp/<case_name>/<exp_name>/meshes/<iter_steps>.ply`.
 
 ## Citation
 
-Cite as below if you find this repository is helpful to your project:
+Cite below if you find this repository helpful to your project:
 
 ```
 @inproceedings{bian2024porf, 
