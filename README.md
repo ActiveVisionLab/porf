@@ -67,11 +67,11 @@ The corresponding mesh can be found in `exp/<case_name>/<exp_name>/meshes/<iter_
 Cite as below if you find this repository is helpful to your project:
 
 ```
-@article{porf_bian2023, 
+@inproceedings{bian2024porf, 
   title={PoRF: Pose Residual Field for Accurate Neural Surface Reconstruction}, 
-  author={Jia-Wang Bian, Wenjing Bian, Victor Adrian Prisacariu, Philip H.S. Torr}, 
-  journal= {ICLR}, 
-  year={2024} 
+  author={Jia-Wang Bian and Wenjing Bian and Victor Adrian Prisacariu and Philip Torr}, 
+  booktitle={ICLR}, 
+  year={2024}
 }
 ```
 
